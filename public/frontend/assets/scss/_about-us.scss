@@ -1,0 +1,116 @@
+/*--
+    18. About Css
+-------------------*/
+.section-inner-ptb {
+    padding: 180px 0;
+    @media #{$desktop-device}{
+        padding: 120px 0;
+    }
+    @media #{$tablet-device}{
+        padding: 100px 0;
+    }
+    @media #{$large-mobile}{
+        padding: 70px 0;
+    }
+    @media #{$small-mobile}{
+        padding: 60px 0;
+    }
+}
+.welcome-about-us {
+    background: #0d202c;
+    position: relative;
+    overflow: hidden;
+    & .start-now {
+        margin-top: 25px;
+        & .start-btn {
+            padding: 12px 45px;
+            background: $theme-color;
+            border-radius: 5px;
+            text-transform: uppercase;
+            font-weight: 500;
+            &:hover {
+                color: $white;
+            }
+        }
+    }
+}
+.welcome-video {
+    float: left;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 45%;
+    @media #{$tablet-device,$large-mobile}{
+        position: inherit;
+        width: 100%;
+        background-size: cover;
+    }
+    
+}
+
+
+/*-- About Us Css */
+.about-us {
+    &-contents{
+        padding-right: 30px;
+        @media #{$large-mobile}{
+            padding-right: 0;
+        }
+        & h3 {
+            font-weight: 500;
+            margin-bottom: 15px;
+            & > span {
+                color: $theme-color;
+            }
+        }
+        & .about-us-btn {
+            & > a {
+                margin-top: 30px;
+                letter-spacing: 1px;
+                padding: 10px 45px;
+                background: $theme-color;
+                display: inline-block;
+                border-radius: 5px;
+                color: $white;
+                text-transform: uppercase;
+                &:hover {
+                    color: $white;
+                }
+                @media #{$large-mobile}{
+                    margin-top: 10px;
+                }
+            }
+        }
+        
+    }
+    &-image {
+        @media #{$tablet-device}{
+            text-align: left!important;
+        }
+        & a {
+            position: relative;
+            &::after {
+                position: absolute;
+                content: "";
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.3);
+                border-radius: 5px;
+            }
+            & span {
+                position: absolute;
+                top: 50%;
+                z-index: 9;
+                right: 50%;
+                transform: translateY(-50%) translateX(50%);
+            }
+        }
+        @media #{$large-mobile,$tablet-device}{
+            margin-top: 30px;
+        }
+    }
+    
+}

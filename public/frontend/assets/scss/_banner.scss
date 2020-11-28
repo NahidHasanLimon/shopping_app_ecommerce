@@ -1,0 +1,139 @@
+/*--
+    08. Banner CSs
+--------------------------*/
+.single-banner {
+    position: relative;
+    &:hover .banner-content {
+        visibility: visible;
+        opacity: 1;
+        transform: rotate(0deg);
+    }
+}
+.banner-content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 50px;
+    background: rgba(255, 255, 255, 0.6);
+    height: auto;
+    width: auto;
+    left: 0;
+    bottom: 0;
+    margin: 30px;
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease-in-out;
+    transform: rotate(15deg);
+    
+    @media #{$laptop-device}{
+        padding: 0 15px;
+        margin: 20px;
+    }
+    @media #{$desktop-device}{
+        padding: 0 10px;
+        margin: 10px;
+         & p {
+            margin-bottom: 5px;
+        }
+    }
+    
+    @media #{$tablet-device}{
+        padding: 0 10px;
+        margin: 10px;
+        & p {
+            margin-bottom: 5px;
+        }
+    }
+    @media #{$small-mobile}{
+        padding: 0 10px;
+        margin: 10px;
+        & p {
+            margin-bottom: 5px;
+        }
+    }
+    
+    & a {
+        color: $theme-color;
+        font-weight: 600;
+    }
+}
+
+.single-banner-two:hover {
+    & img {
+        transform: scale(1.03);
+    }
+    & .banner-content-two { 
+        & h3 { 
+            -webkit-animation: 500ms ease-in-out 0s normal none 1 running fadeInUp;
+            animation: 500ms ease-in-out 0s normal none 1 running fadeInUp;
+        }
+        & a{
+            -webkit-animation: 600ms ease-in-out 0s normal none 1 running fadeInUp;
+            animation: 600ms ease-in-out 0s normal none 1 running fadeInUp;
+        }
+    }
+}
+.single-banner-two {
+    overflow: hidden;
+    & img {
+        transform: scale(1);
+        transition: all 0.3s ease-in-out;
+    }
+}
+.banner_bg-two {
+    background: url(../images/banner/banner.jpg);
+}
+.banner-content-two {
+    top: 0;
+    right: 0;
+    padding: 60px 50px;
+    height: auto;
+    width: auto;
+    left: 0;
+    bottom: 0;
+    margin-left: 50px;
+    display: flex;
+    align-items: center;
+    transition: all 0.4s ease-in-out;
+    & h3 {
+        & span {
+            color: $theme-color;
+            font-size: 46px;
+        }
+    }
+    & a {
+        margin-top: 30px;
+        color: $theme-color;
+        font-weight: 600;
+        font-size: 18px;
+    }
+    @media #{$desktop-device}{
+        margin-left: 20px;
+    }
+    
+    @media #{$tablet-device}{
+        padding: 40px 10px;
+        margin-left: 20px;
+    }
+    @media #{$small-mobile}{
+        
+    }
+    @media #{$large-mobile}{
+        padding: 30px 10px;
+        margin-left: 10px;
+        & h3 {
+            font-size: 18px;
+            line-height: 20px;
+            & span {
+                color: $theme-color;
+                font-size: 22px;
+            }
+        }
+        & a {
+            margin-top: 20px;
+        }
+    }
+   
+}

@@ -1,0 +1,96 @@
+/*--
+    06. Testimonial
+--------------------*/
+.testimonial-bg {
+    background: url(../images/bg/testimonial-bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.content-testimonial {
+    padding: 40px 35px 40px 30px;
+    border-bottom: 1px solid #e1e1e1;
+    position: relative;
+    text-align: center;
+    &::after {
+        position: absolute;
+        content: '';
+        background: url(../image/icon/testimonial-01.png);
+        height: 175px;
+        width: 33px;
+        top: 30px;
+        left: 0;
+        background-repeat: no-repeat;
+    }
+}
+.testimonial-info {
+    padding: 30px 30px;
+    position: relative;
+    &::after {
+            position: absolute;
+            content: '';
+            background: url(../image/icon/testimonial-02.png);
+            background-repeat: repeat;
+            height: 120px;
+            width: 131px;
+            top: 0;
+            left: 0;
+            background-repeat: no-repeat;
+        }
+    
+    & h5 {
+        font-weight: 500;
+    }
+    
+}
+.testimonial-inner {
+    padding-bottom: 50px;
+    & .test-author {
+        margin-top: 20px;
+    }
+}
+.test-cont {
+    text-align: center;
+    margin: auto;
+    & img {
+        display: inline-block;
+    }
+    & p {
+        margin-top: 30px;
+    }
+}
+
+.testimonial-slider .slick-dots {
+    text-align: center;
+    margin-top: 20px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 30px auto 0 0;
+}
+
+.testimonial-slider .slick-dots li {
+    display: inline-block;
+    margin: 0 4px;
+}
+
+.testimonial-slider .slick-dots li button {
+    background-image: url(../images/icon/slider-btn-01.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-size: 0;
+    line-height: 0;
+    display: block;
+    width: 20px;
+    height: 20px;
+    padding: 5px;
+    cursor: pointer;
+    color: transparent;
+    border: 0;
+    outline: none;
+    border-radius: 50%;
+}
+.testimonial-slider .slick-dots li.slick-active button {
+    background-image: url(../images/icon/slider-btn-active.png);
+}

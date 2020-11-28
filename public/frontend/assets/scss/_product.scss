@@ -1,0 +1,119 @@
+/*--
+   05. Product Area Css
+------------------------------*/
+.single-product-wrap {
+    margin-top: 30px;
+    &:hover .product-action {
+        @include opacity(1);
+        @include transform(translateY(-50%));
+    }
+    &:hover .product-image > a{
+        border-bottom: 1px solid $theme-color;
+    }
+    &:hover a:before {
+        @include opacity(1);
+    }
+}
+.product-image {
+    position: relative;
+    & > a {
+        display: block;
+        position: relative;
+        border-bottom: 1px solid #eeeeee;
+        & img {
+            width: 100%; 
+        }
+    }
+    & .product-action {
+        display: inline-block;
+        left: 0;
+        position: absolute;
+        text-align: center;
+        top: 90%;
+        width: 100%;
+        @include opacity(0);
+        @include transition(0.3s);
+        & .wishlist,
+        & .add-to-cart,
+        & .quick-view {
+            background: #ddd none repeat scroll 0 0;
+            display: inline-block;
+            font-size: 18px;
+            height: 40px;
+            line-height: 40px;
+            width: 40px;
+            color: #222;
+            &:hover {
+                background: $theme-color;
+                color: $white;
+            }
+        }
+    }
+    span.label {
+        position: absolute;
+        top: 0;
+        background: $theme-color;
+        color: $white;
+        font-size: 12px;
+        padding: 2px 15px;
+        border-radius: 25px;
+    }
+}
+.product-content{
+    margin-top: 20px;
+    text-align: center;
+    h3 {
+        font-size: 16px;
+        font-weight: 500;
+        margin: 0;
+    }
+    .price-box {
+        font-size: 14px;
+        & span {
+            margin: 0 8px;
+        }
+        & .new-price {
+            color: $theme-color;
+        }
+        & .old-price {
+            text-decoration: line-through;
+        }
+    }
+}
+.product-active-lg-4 {
+    overflow: hidden;
+}
+.product-active-lg-4 .slick-arrow, .product-two-row-4 .slick-arrow {
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    right: auto;
+    background: #ddd;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    z-index: 5;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-50%);
+    transition: 0.3s ease-in-out;
+}
+.product-active-lg-4 .slick-arrow.slick-next, .product-two-row-4 .slick-arrow.slick-next {
+    right: 15px;
+    left: auto;
+}
+
+.product-active-lg-4:hover .slick-arrow, .product-two-row-4:hover .slick-arrow {
+    visibility: visible;
+    opacity: 1;
+}
+
+.product-active-lg-4:hover .slick-arrow.slick-prev, .product-two-row-4:hover .slick-arrow.slick-prev  {
+    left: 0px;
+}
+
+.product-active-lg-4:hover .slick-arrow.slick-next, .product-two-row-4:hover .slick-arrow.slick-next  {
+    right: 0px;
+}

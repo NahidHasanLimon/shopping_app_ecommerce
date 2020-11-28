@@ -1,0 +1,83 @@
+/*--
+  20. Project Conunt Css  
+-----------------------*/
+
+.project-count-bg {
+    background: url(../images/bg/counter-bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.project-count-inner_one{
+    & .counter {
+        margin-top: 30px;
+        padding-bottom: 5px;
+
+        & h3 {
+            color: $theme-color;
+            font-size: 60px;
+            font-weight: 800;
+            @media #{$large-mobile}{
+                font-size: 50px;
+                line-height: 40px;
+            }
+        }
+        & p {
+            color: $white;
+            font-size: 14px;
+            line-height: 14px;
+            margin-top: 20px;
+            position: relative;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        &::after {
+            position: absolute;
+            background: $theme-color;
+            content: '';
+            width: 50px;
+            height: 2px;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+        }
+    }
+}
+.project-count-inner_two {
+
+    & .single-fun-factor {
+        margin-top: 30px;
+        text-align: center;
+        padding: 30px 20px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        -webkit-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+        position: relative;
+        background: rgba(0, 0, 0, 0.5);
+        &:hover {
+            border-color: $theme-color;
+        }
+
+        .counter {
+            padding-bottom: 5px;
+
+            & h3 {
+                color: $theme-color;
+                font-weight: 800;
+                @media #{$large-mobile}{
+                    font-size: 50px;
+                    line-height: 40px;
+                }
+            }
+            & p {
+                color: $white;
+                font-size: 20px;
+                line-height: 14px;
+                margin-top: 20px;
+                position: relative;
+                margin-bottom: 0;
+                font-weight: 500;
+            }
+            
+        }
+    }
+}

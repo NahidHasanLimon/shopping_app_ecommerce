@@ -1,0 +1,61 @@
+/*--
+    19. Team Area Css
+--------------------------*/
+.single-team {
+    position: relative;
+    &-image {
+        
+    }
+    &-info {
+        padding-top: 25px;
+        text-align: center;
+        background: #fff;
+        position: absolute;
+        width: 100%;
+        margin-top: 0px;
+        @include transition(0.4s);
+        & h5 {
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0;
+        }
+        & p {
+            color: $theme-color;
+            text-transform: uppercase;
+        }
+    }
+    & .personsl-socail {
+        visibility: hidden;
+        opacity: 0;
+        @include transition(0.3s);
+        text-align: center;
+        margin-top: 32px;
+        & li {
+            display: inline-block;
+            margin: 0 3px;
+            & a {
+                display: block;
+                height: 35px;
+                width: 35px;
+                line-height: 35px;
+                font-size: 16px;
+                background: $theme-color;
+                color: $white;
+                text-align: center;
+                border-radius: 50%;
+                &:hover {
+                    background: #333;
+                }
+            }
+        }
+    }
+    &:hover {
+        & .single-team-info {
+            margin-top: -60px;
+        }
+        & .personsl-socail {
+            visibility: visible;
+            opacity: 1;
+        }
+    }
+}
