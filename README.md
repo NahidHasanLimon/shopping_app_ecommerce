@@ -1,5 +1,5 @@
 
-## About Shopping App Ecomerce
+## About Shopping App Ecommerce
 
 
 # shopping_app
