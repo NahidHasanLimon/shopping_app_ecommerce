@@ -107,10 +107,7 @@ class CartController extends Controller
     }
     // end of update
        public function remove(Request $request)
-    {  return response()->json([
-                'cart' => $this->session_cart_details()
-
-         ]);
+    { 
         if($request->id) {
             $cart = session()->get('cart');
             if(isset($cart[$request->id])) {

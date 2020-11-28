@@ -134,31 +134,24 @@
                                             </div>
                                         </li>
                                           @endforeach
-                                        @endif
-                                      {{--   <li class="cart-item">
-                                            <div class="cart-image">
-                                                <a href="product-details.html"><img alt="" src="frontend/assets/images/product/product-02.jpg"></a>
-                                            </div>
-                                            <div class="cart-title">
-                                                <a href="product-details.html">
-                                                    <h4>Product Name 03</h4>
-                                                </a>
-                                                <span class="quantity">1 ×</span>
-                                                <div class="price-box"><span class="new-price">$130.00</span></div>
-                                                <a class="remove_from_cart" href="#"><i class="icon-trash icons"></i></a>
-                                            </div>
-                                        </li> --}}
                                         <li class="subtotal-titles">
                                             <div class="subtotal-titles">
                                                 <h3>Sub-Total :</h3><span id="sub-total">{{$cart_details['sub_total']}}</span>
                                             </div>
                                         </li>
-                                        <li class="mini-cart-btns">
+                                        @endif
+                                        <li class="mini-cart-btns @if(empty($cart_details['items'])) d-none @endif " id="mini_cart_btn_div">
                                             <div class="cart-btns">
                                                 <a href="{{ route('cart.view') }}">View cart</a>
                                                 <a href="checkout.html">Checkout</a>
                                             </div>
                                         </li>
+                                        
+                                        <div class="text-center @if (!empty($cart_details['items'])) d-none @endif" id="empty_cart_div">
+                                            <h1>No items in the cart</h1>
+                                             <a href="shop.html" class="btn continue-btn">Continue Shopping</a>
+                                         </div>
+                                        
                                     </ul>
                                 </div>
 

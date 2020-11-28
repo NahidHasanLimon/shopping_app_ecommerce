@@ -255,9 +255,7 @@
 <script type="text/javascript">
     $(function(){
 
-    function displayNumberofItemsInCart(cart){
-        console.log(cart);
-        // $('.mini-cart').html('');
+     function displayNumberofItemsInMiniCart(cart){
         $('#cart-total').empty();
         $('#cart-total').text(cart.number_of_items_in_cart)
         $('#sub-total').empty();
@@ -280,6 +278,14 @@
                                         </li>
                                            `)
         });
+        // end of loop
+       if(cart.number_of_items_in_cart<=0){
+         $('#empty_cart_div').removeClass('d-none');
+         $('#mini_cart_btn_div').addClass('d-none');
+       }else{
+         $('#mini_cart_btn_div').removeClass('d-none');
+          $('#empty_cart_div').addClass('d-none');
+       }
     }
     $('.add-to-cart').click(function(e){
         e.preventDefault();
@@ -289,7 +295,7 @@
                method: "get",
                 data: { id: id },
                success: function (response) {
-                   displayNumberofItemsInCart(response.cart);
+                   displayNumberofItemsInMiniCart(response.cart);
                }
             });
     });

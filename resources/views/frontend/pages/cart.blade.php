@@ -20,7 +20,8 @@
 
         <!-- main-content-wrap start -->
         <div class="main-content-wrap section-ptb cart-page">
-            <div class="container">
+                @if(!empty($cart_details['items']))
+            <div class="container" id="cart_container_div">
                 <div class="row">
                     <div class="col-12">
                         <form action="#" class="cart-table">
@@ -37,7 +38,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="cart_table_body">
-                                        @if(!empty($cart_details['items']))
+                                        
                                         @foreach ($cart_details['items'] as $key=>$item)
                                         <tr id="cart_item_row{{$key}}" data-product_id="{{$key}}"> 
                                          <td class="plantmore-product-thumbnail"><a href="#"><img height="40px;" src="{{asset('assets/images/product/'.$item['photo'])}}" alt=""></a></td>
@@ -82,10 +83,15 @@
                                 </div>
                             </div>
                         </form>
-                         @endif
                     </div>
                 </div>
             </div>
+            @else
+            <div class="text-center" id="empty_cart_div">
+                <h1>No items in the cart</h1>
+                <a href="shop.html" class="btn continue-btn">Continue Shopping</a>
+            </div>
+              @endif
         </div>
  @endsection
 
@@ -93,9 +99,7 @@
 <script type="text/javascript">
     $(function(){
 
-    function displayNumberofItemsInCart(cart){
-        console.log(cart);
-        // $('.mini-cart').html('');
+       function displayNumberofItemsInMiniCart(cart){
         $('#cart-total').empty();
         $('#cart-total').text(cart.number_of_items_in_cart)
         $('#sub-total').empty();
@@ -118,49 +122,51 @@
                                         </li>
                                            `)
         });
+        // end of loop
+       if(cart.number_of_items_in_cart<=0){
+         $('#empty_cart_div').removeClass('d-none');
+         $('#mini_cart_btn_div').addClass('d-none');
+       }else{
+         $('#mini_cart_btn_div').removeClass('d-none');
+          $('#empty_cart_div').addClass('d-none');
+       }
     }
+    // end of display mini cart
  var prev_quantity = $(".quantity_of_an_item").val();
  $(".quantity_of_an_item").on('keyup change click', function () {
         current_quantity = $(this).val();
         console.log(current_quantity);
-       
-        // var current_sub_total = $(this).closest('tr').find('.product-subtotal span').text();
         var unit_price = $(this).closest('tr').find('.plantmore-product-price span').text();
         var updated_subtotal = parseFloat(unit_price) * parseFloat(current_quantity);
-        // var sub_total = $(this).closest('.row').find('.col-lg-10').remove();
-        // console.log('current_quantity'+current_quantity);
-        // console.log('Unit Price'+unit_price);
-        // console.log('Updated Sub'+updated_subtotal);
         $(this).closest('tr').find('.product-subtotal span').text(updated_subtotal.toFixed(2));
-
-
-        $('#cart_sub_total').text(cart_total_calculation().toFixed(2));
-        $('#cart_total').text(cart_total_calculation().toFixed(2));
-       
-
-           
+        $('#cart_sub_total').text(cartTotalCalculation().toFixed(2));
+        $('#cart_total').text(cartTotalCalculation().toFixed(2));      
 });
   $('.item-remove-btn').click(function(e){
         e.preventDefault();
        var id=$(this).data('id');
-
          $.ajax({
                url: '{{ url('remove-from-cart') }}',
                method: "get",
                 data: { id: id },
                success: function (response) {
-                console.log(response);
-                   displayNumberofItemsInCart(response.cart);
-                   $(this).parents('tr').hide();
-                   $(this).parents("tr").remove();
-                   // $('#cart_item_row'+id'').remove(); 
-                   // $('#cart_item_row'+id+'').remove(); 
+                    $('#cart_item_row'+id+'').remove(); 
+                    displayNumberofItemsInMiniCart(response.cart);
+                    $('#cart_sub_total').text(cartTotalCalculation().toFixed(2));
+                    $('#cart_total').text(cartTotalCalculation().toFixed(2));
+                    if(response.cart.number_of_items_in_cart<=0){
+                        $('#cart_container_div').empty();
+                        $('#cart_container_div').append(`<div class="text-center" id="empty_cart_div">
+                                                            <h1>No items in the cart</h1>
+                                                             <a href="shop.html" class="btn continue-btn">Continue Shopping</a>
+                                                         </div>`);
+                    }
                }
             });
     });
 
-    // cart_total_calculation();
-    function cart_total_calculation(){
+    // cartTotalCalculation();
+    function cartTotalCalculation(){
           var cart_subtotal = 0;
      $('#cart_table_body  > tr > td.product-subtotal').each(function(){
         cart_subtotal += parseFloat($(this).text());
