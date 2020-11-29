@@ -108,6 +108,7 @@ class CartController extends Controller
     // end of update
        public function remove(Request $request)
     { 
+      // return0;
         if($request->id) {
             $cart = session()->get('cart');
             if(isset($cart[$request->id])) {

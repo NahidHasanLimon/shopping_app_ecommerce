@@ -96,46 +96,19 @@
  @endsection
 
 @section('page-level-javascript')
+<script src="{{ asset('frontend/assets/custom/js/cart.js') }}" type="text/javascript"></script>
 <script type="text/javascript">
     $(function(){
-
-       function displayNumberofItemsInMiniCart(cart){
-        $('#cart-total').empty();
-        $('#cart-total').text(cart.number_of_items_in_cart)
-        $('#sub-total').empty();
-        $('#sub-total').text(cart.sub_total)
-        $('.mini-cart').find('.cart-item').remove();
-        $.each( cart.items, function( key, value ) {
-          console.log(value);
-          $('.mini-cart').prepend(`<li class="cart-item">
-                                            <div class="cart-image">
-                                                <a href="product-details.html"><img alt="" src="/assets/images/product/`+value.photo+`"></a>
-                                            </div>
-                                            <div class="cart-title">
-                                                <a href="product-details.html">
-                                                    <h4>`+value.name+`</h4>
-                                                </a>
-                                                <span class="quantity">`+value.quantity+` ×</span>
-                                                <div class="price-box"><span class="new-price">`+value.price+`</span></div>
-                                                <a class="remove_from_cart" href="#"><i class="icon-trash icons"></i></a>
-                                            </div>
-                                        </li>
-                                           `)
-        });
-        // end of loop
-       if(cart.number_of_items_in_cart<=0){
-         $('#empty_cart_div').removeClass('d-none');
-         $('#mini_cart_btn_div').addClass('d-none');
-       }else{
-         $('#mini_cart_btn_div').removeClass('d-none');
-          $('#empty_cart_div').addClass('d-none');
-       }
-    }
-    // end of display mini cart
  var prev_quantity = $(".quantity_of_an_item").val();
  $(".quantity_of_an_item").on('keyup change click', function () {
-        current_quantity = $(this).val();
+        var current_quantity = $(this).val();
         console.log(current_quantity);
+        if(current_quantity ==0 || current_quantity <1 || current_quantity == ''){
+            console.log('invalid input');
+            $(this).val(1);
+            $(this).focus();
+            current_quantity = 1;
+        }
         var unit_price = $(this).closest('tr').find('.plantmore-product-price span').text();
         var updated_subtotal = parseFloat(unit_price) * parseFloat(current_quantity);
         $(this).closest('tr').find('.product-subtotal span').text(updated_subtotal.toFixed(2));
@@ -151,7 +124,7 @@
                 data: { id: id },
                success: function (response) {
                     $('#cart_item_row'+id+'').remove(); 
-                    displayNumberofItemsInMiniCart(response.cart);
+                    window.displayNumberofItemsInMiniCart(response.cart);
                     $('#cart_sub_total').text(cartTotalCalculation().toFixed(2));
                     $('#cart_total').text(cartTotalCalculation().toFixed(2));
                     if(response.cart.number_of_items_in_cart<=0){
@@ -178,4 +151,5 @@
 
 
 </script>
+
 @endsection
