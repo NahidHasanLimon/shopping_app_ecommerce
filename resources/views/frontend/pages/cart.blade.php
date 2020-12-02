@@ -98,6 +98,14 @@
 @section('page-level-javascript')
 <script src="{{ asset('frontend/assets/custom/js/cart.js') }}" type="text/javascript"></script>
 <script type="text/javascript">
+    jQuery( document ).ready(function( $ ) {
+
+   //Use this inside your document ready jQuery 
+   $(window).on('popstate', function() {
+      location.reload(true);
+   });
+
+});
     $(function(){
  var prev_quantity = $(".quantity_of_an_item").val();
  $(".quantity_of_an_item").on('keyup change click', function () {

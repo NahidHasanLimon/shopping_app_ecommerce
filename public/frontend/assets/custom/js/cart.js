@@ -26,7 +26,7 @@ $(function(){
                                            `)
         });
         // end of loop
-       if(cart.number_of_items_in_cart<=0){
+       if(cart.number_of_items_in_cart<1){
          $('#empty_cart_div').removeClass('d-none');
          $('#mini_cart_btn_div').addClass('d-none');
        }else{

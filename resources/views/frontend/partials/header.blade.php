@@ -134,16 +134,17 @@
                                             </div>
                                         </li>
                                           @endforeach
+                                           @endif
                                         <li class="subtotal-titles">
                                             <div class="subtotal-titles">
                                                 <h3>Sub-Total :</h3><span id="sub-total">{{$cart_details['sub_total']}}</span>
                                             </div>
                                         </li>
-                                        @endif
+                                       
                                         <li class="mini-cart-btns @if(empty($cart_details['items'])) d-none @endif " id="mini_cart_btn_div">
                                             <div class="cart-btns">
                                                 <a href="{{ route('cart.view') }}">View cart</a>
-                                                <a href="checkout.html">Checkout</a>
+                                                <a href="{{ route('checkout') }}">Checkout</a>
                                             </div>
                                         </li>
                                         
@@ -269,7 +270,7 @@
                                         <a href="#">0123456789</a>
                                     </li>
                                     <li>
-                                        <a href="#">info@yourdomain.com</a>
+                                        <a href="#">nhlimon.com</a>
                                     </li>
                                 </ul>
                             </div>
