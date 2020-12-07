@@ -116,39 +116,40 @@
 
 
                                 <div class="shopping-cart-wrap">
-                                    <a href="#"><i class="ion-ios-cart-outline"></i> <span id="cart-total">{{$cart_details['number_of_items_in_cart']}}</span></a>
+                                   @if(!empty(Cart::details()))
+                                    <a href="#"><i class="ion-ios-cart-outline"></i> <span id="cart-total">{{Cart::details()['number_of_items_in_cart']}}</span></a>
                                     <ul class="mini-cart">
-                                        @if(!empty($cart_details['items']))
-                                        @foreach ($cart_details['items'] as $item)
+                                        
+                                        @foreach (Cart::details()['items'] as $item)
                                           <li class="cart-item">
                                             <div class="cart-image">
-                                                <a href="product-details.html"><img alt="" src="{{asset('assets/images/product/'.$item['photo'])}}"></a>
+                                                <a href="product-details.html"><img alt="" src="{{asset('assets/images/product/'.$item['item']['thumbnail'])}}"></a>
                                             </div>
                                             <div class="cart-title">
                                                 <a href="product-details.html">
-                                                    <h4>{{$item['name']}}</h4>
+                                                    <h4>{{$item['item']['name']}}</h4>
                                                 </a>
                                                 <span class="quantity">{{$item['quantity']}} ×</span>
-                                                <div class="price-box"><span class="new-price">{{$item['price']}}</span></div>
+                                                <div class="price-box"><span class="new-price">{{$item['item']['new_price']}}</span></div>
                                                 <a class="remove_from_cart" href="#"><i class="icon-trash icons"></i></a>
                                             </div>
                                         </li>
                                           @endforeach
-                                           @endif
+                                           
                                         <li class="subtotal-titles">
                                             <div class="subtotal-titles">
-                                                <h3>Sub-Total :</h3><span id="sub-total">{{$cart_details['sub_total']}}</span>
+                                                <h3>Sub-Total :</h3><span id="sub-total">{{Cart::details()['total']}}</span>
                                             </div>
                                         </li>
-                                       
-                                        <li class="mini-cart-btns @if(empty($cart_details['items'])) d-none @endif " id="mini_cart_btn_div">
+                                       @endif
+                                        <li class="mini-cart-btns @if(empty(Cart::details()['items'])) d-none @endif " id="mini_cart_btn_div">
                                             <div class="cart-btns">
                                                 <a href="{{ route('cart.view') }}">View cart</a>
                                                 <a href="{{ route('checkout') }}">Checkout</a>
                                             </div>
                                         </li>
                                         
-                                        <div class="text-center @if (!empty($cart_details['items'])) d-none @endif" id="empty_cart_div">
+                                        <div class="text-center @if (!empty(Cart::details()['items'])) d-none @endif" id="empty_cart_div">
                                             <h1>No items in the cart</h1>
                                              <a href="shop.html" class="btn continue-btn">Continue Shopping</a>
                                          </div>

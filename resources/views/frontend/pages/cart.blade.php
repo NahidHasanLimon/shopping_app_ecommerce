@@ -20,7 +20,7 @@
 
         <!-- main-content-wrap start -->
         <div class="main-content-wrap section-ptb cart-page">
-                @if(!empty($cart_details['items']))
+                @if(!empty(Cart::details()['items']))
             <div class="container" id="cart_container_div">
                 <div class="row">
                     <div class="col-12">
@@ -38,19 +38,20 @@
                                         </tr>
                                     </thead>
                                     <tbody id="cart_table_body">
-                                        
-                                        @foreach ($cart_details['items'] as $key=>$item)
+                                        @if(!empty(Cart::details()))
+                                        @foreach (Cart::details()['items'] as $key=>$item)
                                         <tr id="cart_item_row{{$key}}" data-product_id="{{$key}}"> 
-                                         <td class="plantmore-product-thumbnail"><a href="#"><img height="40px;" src="{{asset('assets/images/product/'.$item['photo'])}}" alt=""></a></td>
-                                            <td class="plantmore-product-name"><a href="#">{{$item['name']}}</a></td>
-                                            <td class="plantmore-product-price"><span class="amount">{{$item['price']}}</span></td>
+                                         <td class="plantmore-product-thumbnail"><a href="#"><img height="40px;" src="{{asset('assets/images/product/'.$item['item']['thumbnail'])}}" alt=""></a></td>
+                                            <td class="plantmore-product-name"><a href="#">{{$item['item']['name']}}</a></td>
+                                            <td class="plantmore-product-price"><span class="amount">{{$item['item']['new_price']}}</span></td>
                                             <td class="plantmore-product-quantity">
                                                 <input name="item_quantity[{{$key}}]" value="{{$item['quantity']}}" type="number" min="1" max="" class="quantity_of_an_item">
                                             </td>
                                             <td class="product-subtotal"><span class="amount">{{$item['item_total']}}</span></td>
-                                            <td class="plantmore-product-remove"><a href="#" class="item-remove-btn" data-id="{{$key}}"><i class="ion-close"></i></a></td>
+                                            <td class="plantmore-product-remove"><a href="#" class="item-remove-btn" data-id="{{$item['product_id']}}"><i class="ion-close"></i></a></td>
                                         </tr>
                                           @endforeach
+                                          @endif
                                     </tbody>
                                 </table>
                             </div>
@@ -75,8 +76,8 @@
                                     <div class="cart-page-total">
                                         <h2>Cart totals</h2>
                                         <ul>
-                                            <li>Subtotal <span id="cart_sub_total">{{$cart_details['sub_total']}}</span></li>
-                                            <li>Total <span id="cart_total">{{$cart_details['sub_total']}}</span></li>
+                                            <li>Subtotal <span id="cart_sub_total">{{Cart::details()['total']}}</span></li>
+                                            <li>Total <span id="cart_total">{{Cart::details()['total']}}</span></li>
                                         </ul>
                                         <a href="#" class="proceed-checkout-btn">Proceed to checkout</a>
                                     </div>
