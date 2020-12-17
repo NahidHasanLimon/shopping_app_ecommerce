@@ -24,7 +24,11 @@
             <div class="container" id="cart_container_div">
                 <div class="row">
                     <div class="col-12">
-                        <form action="#" class="cart-table">
+                        <form  class="cart-table"  method = "POST"
+                        action="{{route('cartUpdate')}}"
+                         {{-- action="/c/update" --}}
+                        >
+                            @csrf
                             <div class="table-content table-responsive">
                                 <table class="table">
                                     <thead>
@@ -40,12 +44,12 @@
                                     <tbody id="cart_table_body">
                                         @if(!empty(Cart::details()))
                                         @foreach (Cart::details()['items'] as $key=>$item)
-                                        <tr id="cart_item_row{{$key}}" data-product_id="{{$key}}"> 
+                                        <tr id="cart_item_row{{$item['product_id']}}" data-product_id="{{$item['product_id']}}"> 
                                          <td class="plantmore-product-thumbnail"><a href="#"><img height="40px;" src="{{asset('assets/images/product/'.$item['item']['thumbnail'])}}" alt=""></a></td>
                                             <td class="plantmore-product-name"><a href="#">{{$item['item']['name']}}</a></td>
-                                            <td class="plantmore-product-price"><span class="amount">{{$item['item']['new_price']}}</span></td>
+                                            <td class="plantmore-product-price"><span class="amount">{{$item['price']}}</span></td>
                                             <td class="plantmore-product-quantity">
-                                                <input name="item_quantity[{{$key}}]" value="{{$item['quantity']}}" type="number" min="1" max="" class="quantity_of_an_item">
+                                                <input name="items_quantity[{{$item['product_id']}}]" value="{{$item['quantity']}}" type="number" min="1" max="" class="quantity_of_an_item">
                                             </td>
                                             <td class="product-subtotal"><span class="amount">{{$item['item_total']}}</span></td>
                                             <td class="plantmore-product-remove"><a href="#" class="item-remove-btn" data-id="{{$item['product_id']}}"><i class="ion-close"></i></a></td>
@@ -58,12 +62,10 @@
                             <div class="row">
                                 <div class="col-md-8">
                                     <div class="coupon-all">
-
                                         <div class="coupon2">
-                                            <input class="submit btn" name="update_cart" value="Update cart" type="submit">
+                                            <input class="submit btn" name="update_cart" value="updateCart" type="submit">
                                             <a href="shop.html" class="btn continue-btn">Continue Shopping</a>
                                         </div>
-
                                         <div class="coupon">
                                             <h3>Coupon</h3>
                                             <p>Enter your coupon code if you have one.</p>
@@ -84,6 +86,7 @@
                                 </div>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>

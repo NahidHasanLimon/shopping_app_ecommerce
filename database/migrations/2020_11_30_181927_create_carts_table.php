@@ -17,9 +17,12 @@ class CreateCartsTable extends Migration
             $table->id();
             $table->integer('user_id');
             $table->string('session_id');
-            $table->string('promo_code')->nullable();
+            $table->string('coupon_code')->nullable();
+            $table->decimal('coupon_value',8, 2)->default(0.0);
             $table->integer('number_of_items_in_cart')->default(0);
+            $table->decimal('sub_total', 8, 2)->default(0.0);
             $table->decimal('total', 8, 2)->default(0.0);
+            $table->tinyInteger('is_active')->default(1);
             $table->timestamps();
         });
     }

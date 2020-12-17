@@ -8,18 +8,18 @@ $(function(){
         $('#sub-total').empty();
         $('#sub-total').text(cart.sub_total)
         $('.mini-cart').find('.cart-item').remove();
-        $.each( cart.items, function( key, value ) {
-          console.log(value);
+        $.each( cart.items, function( key, item ) {
+          console.log(item);
           $('.mini-cart').prepend(`<li class="cart-item">
                                             <div class="cart-image">
-                                                <a href="product-details.html"><img alt="" src="/assets/images/product/`+value.photo+`"></a>
+                                                <a href="product-details.html"><img alt="" src="/assets/images/product/`+item.item.thumbnail+`"></a>
                                             </div>
                                             <div class="cart-title">
                                                 <a href="product-details.html">
-                                                    <h4>`+value.name+`</h4>
+                                                    <h4>`+item.item.name+`</h4>
                                                 </a>
-                                                <span class="quantity">`+value.quantity+` ×</span>
-                                                <div class="price-box"><span class="new-price">`+value.price+`</span></div>
+                                                <span class="quantity">`+item.quantity+` ×</span>
+                                                <div class="price-box"><span class="new-price">`+item.price+`</span></div>
                                                 <a class="remove_from_cart" href="#"><i class="icon-trash icons"></i></a>
                                             </div>
                                         </li>

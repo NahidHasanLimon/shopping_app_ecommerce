@@ -48,20 +48,40 @@ class CartController extends Controller
     // end of add to cart
     public function update(Request $request)
     {
-        if($request->id and $request->quantity)
-        {
-            $cart = session()->get('cart');
-            $cart[$request->id]["quantity"] = $request->quantity;
-            session()->put('cart', $cart);
-            session()->flash('success', 'Cart updated successfully');
-        }
+       // dd($request->all());
+       if (isset($request->apply_coupon)){
+        $this->apply_coupon($request->coupon_code);
+       }
+       // dd($request->items_quantity);
+      $items = $request->items_quantity;
+       Cart::update($items);
+       // dd($request->coupon_code);
+       dd($this->apply_coupon($request->coupon_code));
+      return redirect('cart')->with('cart', 'Profile updated!');
+      // dd($items_quantity);
+      // // foreach ($items_quantity as $key => $value) {
+      // //   dd($key);
+      // //   // foreach ($value as $key => $value) {
+      // //   //   dd($key);
+      // //   // }
+      // // }
+
     }
     // end of update
+    public function apply_coupon($coupon_code){
+      if (isset($coupon_code) && !empty($coupon_code)) {
+         Cart::apply_coupon($coupon_code);
+      }
+
+    }
        public function remove(Request $request)
     { 
       if (isset($request->id)) {
         $product_id = $request->id;
         Cart::remove($product_id);
+         return response()->json([
+                'cart' => Cart::details()
+         ]);
       }
       
     }

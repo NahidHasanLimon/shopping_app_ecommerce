@@ -130,7 +130,7 @@
                                                     <h4>{{$item['item']['name']}}</h4>
                                                 </a>
                                                 <span class="quantity">{{$item['quantity']}} ×</span>
-                                                <div class="price-box"><span class="new-price">{{$item['item']['new_price']}}</span></div>
+                                                <div class="price-box"><span class="new-price">{{$item['price']}}</span></div>
                                                 <a class="remove_from_cart" href="#"><i class="icon-trash icons"></i></a>
                                             </div>
                                         </li>
@@ -150,7 +150,7 @@
                                         </li>
                                         
                                         <div class="text-center @if (!empty(Cart::details()['items'])) d-none @endif" id="empty_cart_div">
-                                            <h1>No items in the cart</h1>
+                                            <span>No items in the cart</span>
                                              <a href="shop.html" class="btn continue-btn">Continue Shopping</a>
                                          </div>
                                         

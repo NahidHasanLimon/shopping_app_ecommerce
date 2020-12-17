@@ -16,12 +16,14 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // dd(Cart::session_to_database());
+        // dd(Cart::is_logged_user_cart_exist());
         // $cart_items = new CartItem();
         // $cart_items->price = 200;
         // $cart_items->quantity = 3;
         // $cart_items = $cart_items->find(3);
         // dd($cart_items->Total);
-        dd(Cart::sum_of_item_total_db(19));
+        // dd(Cart::sum_of_item_total_db(19));
          // dd(Cart::session_to_database());
         //factory(App\Product::class,20)->create();
         $products = Product::all();
@@ -30,7 +32,7 @@ class HomeController extends Controller
         // foreach ($cart_details['items'] as $item) {
         //     // dd($item['item']['name']);
         // }
-        dd($cart_details);
+        // dd($cart_details);
         // if (empty(Cart::details())) {
         //    dd(Cart::details());
         // }
