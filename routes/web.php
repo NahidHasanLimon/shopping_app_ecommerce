@@ -21,7 +21,9 @@ Route::get('/', 'Frontend\HomeController@index')->name('home');
 Route::get('/add-to-cart', 'CartController@add_to_cart')->name('cart.add');
 Route::get('/remove-from-cart', 'CartController@remove')->name('cart.remove');
 Route::get('/cart', 'CartController@index')->name('cart.view');
-Route::post('/cart/update', 'CartController@update')->name('cartUpdate');
+Route::post('/cart/update', 'CartController@update')->name('cart.update');
+Route::post('/coupon/apply', 'CartController@apply_coupon')->name('coupon.apply');
+Route::get('/coupon/remove/{coupon_code}', 'CartController@remove_coupon')->name('coupon.remove');
 // Route::get('/cart/update',function(){
 // 	echo "limon";
 // })->name('cartUpdateNew');

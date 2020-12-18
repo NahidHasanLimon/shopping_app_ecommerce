@@ -25,7 +25,7 @@
                 <div class="row">
                     <div class="col-12">
                         <form  class="cart-table"  method = "POST"
-                        action="{{route('cartUpdate')}}"
+                        action="{{route('cart.update')}}"
                          {{-- action="/c/update" --}}
                         >
                             @csrf
@@ -68,20 +68,37 @@
                                         </div>
                                         <div class="coupon">
                                             <h3>Coupon</h3>
+                                       @if(empty(Cart::details()['coupon_code']))
                                             <p>Enter your coupon code if you have one.</p>
                                             <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code" type="text">
                                             <input class="button" name="apply_coupon" value="Apply coupon" type="submit">
+                                        @else
+                                            <div class="your-order-wrap border">      
+                                              <div class="input-group">
+                                                <div class="input-group-prepend bg-danger">
+                                                    <div class="input-group-text">
+                                                        <a href="{{route('coupon.remove',Cart::details()['coupon_code']) }}" class="button btn-danger">Remove</a>
+                                                    </div>
+                                                </div>
+                                                <h5 class="text-center text-middle">Your Applied Coupon: <span class="bold"> {{Cart::details()['coupon_code']}}</span></h5>
+                                              </div>
                                         </div>
+                                        @endif
+                                        </div>
+                                       
                                     </div>
                                 </div>
                                 <div class="col-md-4 ml-auto">
                                     <div class="cart-page-total">
                                         <h2>Cart totals</h2>
                                         <ul>
-                                            <li>Subtotal <span id="cart_sub_total">{{Cart::details()['total']}}</span></li>
+                                            <li>Subtotal <span id="cart_sub_total">{{Cart::details()['sub_total']}}</span></li> 
+                                            @if (!empty(Cart::details()['coupon_code']))
+                                                <li>Coupon - {{Cart::details()['coupon_code']}} <span id="coupon_value">{{Cart::details()['coupon_value']}}</span></li>
+                                            @endif
                                             <li>Total <span id="cart_total">{{Cart::details()['total']}}</span></li>
                                         </ul>
-                                        <a href="#" class="proceed-checkout-btn">Proceed to checkout</a>
+                                        <a href="{{ route('checkout') }}" class="proceed-checkout-btn">Proceed to checkout</a>
                                     </div>
                                 </div>
                             </div>

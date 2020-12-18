@@ -7,71 +7,85 @@ use App\Product;
 use App\Cart as CartDB;
 use Auth;
 use Cart;
-// use Request;
+use Session;
 class CartController extends Controller
 {
     //
      public function index()
     {
-      // dd(Cart::session_cart_details());
      $cart_details= Cart::details();
-     // dd($cart_details);
        return view('Frontend.pages.cart');
     }
     public function add_to_cart(Request $request)
     {
-
-    // dd()
-      // dd(Request::all());
       $input = $request->all();
-      // Cart::update();
-      // Cart::session_cart_details();
-      // dd($request::ajax());
-      // Cart::update();
-
       if (isset($input['id'])) {
-              // dd($input);
-          // if (Cart::add($request->id)) {
-          //   dd(Cart::details());
-          // }
           Cart::add($input);
-          // Cart::details();
            return response()->json([
                 'cart' => Cart::details()
          ]);
-            
-          
-      }
-
-    	 
+         }
     }
     // end of add to cart
     public function update(Request $request)
     {
-       // dd($request->all());
-       if (isset($request->apply_coupon)){
-        $this->apply_coupon($request->coupon_code);
+         $customMessages = [
+        'required' => 'The :attribute field is required.'
+    ];
+      
+       if (isset($request->items_quantity)) {
+         $items = $request->items_quantity;
+         if (Cart::update($items)){
+          Session::flash('success', 'You have successfully updated cart!');
+         }else{
+          Session::flash('error', 'Failed to update cart!');
+         }
        }
-       // dd($request->items_quantity);
-      $items = $request->items_quantity;
-       Cart::update($items);
-       // dd($request->coupon_code);
-       dd($this->apply_coupon($request->coupon_code));
-      return redirect('cart')->with('cart', 'Profile updated!');
-      // dd($items_quantity);
-      // // foreach ($items_quantity as $key => $value) {
-      // //   dd($key);
-      // //   // foreach ($value as $key => $value) {
-      // //   //   dd($key);
-      // //   // }
-      // // }
-
+      if (isset($request->apply_coupon)){
+          $coupon_code = $request->coupon_code;
+          if (!is_null($coupon_code)) {
+            $apply_coupon = Cart::apply_coupon($coupon_code);
+            // dd($apply_coupon);
+             if ($apply_coupon=='success') {
+             Session::flash('success',$coupon_code.'Coupon Appllied Successfully!');
+           }elseif ($apply_coupon=='invalid') {
+             Session::flash('error','Invalid Coupon Code');  
+           }elseif ($apply_coupon=='expired') {
+             Session::flash('error','Coupon Unavailable right now!Please stay with us!');
+           }
+           else{
+            Session::flash('info', $apply_coupon);
+           }
+          }
+        else{
+          Session::flash('error', 'Please enter a coupon code');
+        }
+        
+      
+       }
+       Session::flash('success','Coupon Appllied Successfully!');
+       // dd(Session());
+      // return redirect('cart');
+       return back();
     }
     // end of update
-    public function apply_coupon($coupon_code){
+    public function apply_coupon(Request $request){
+      $coupon_code = $request->coupon_code;
       if (isset($coupon_code) && !empty($coupon_code)) {
-         Cart::apply_coupon($coupon_code);
+           $apply_coupon = Cart::apply_coupon($coupon_code);
+           if ($apply_coupon=='success') {
+             Session::flash('success','"'.$coupon_code.'"  Coupon Appllied Successfully!');
+           }elseif ($apply_coupon=='invalid') {
+             Session::flash('error','"'.$coupon_code.'" Invalid Coupon Code');  
+           }elseif ($apply_coupon=='expired') {
+             Session::flash('error','"'.$coupon_code.'" Coupon Unavailable right now!Please stay with us!');
+           }
+           else{
+            Session::flash('info','"'.$coupon_code.'"'.$apply_coupon);
+           }
+            
       }
+      return back();
 
     }
        public function remove(Request $request)
@@ -84,6 +98,17 @@ class CartController extends Controller
          ]);
       }
       
+    } public function remove_coupon($coupon_code)
+    { 
+      if (isset($coupon_code) &&!is_null($coupon_code)) {
+         $coupon_remove = Cart::remove_coupon($coupon_code);
+         if ($coupon_remove) {
+             Session::flash('success','"'.$coupon_code.'" Coupon removed successfully');
+         }else{
+           Session::flash('error','"'.$coupon_code.'" Coupon failed to remove');
+         }
+      }
+      return back();
+      
     }
-
 }

@@ -15,9 +15,8 @@ class Cart
   private $session;
   private $cart_id_db;
 	function __construct()
-	{
-
-		 $this->session = session();
+	{		
+      $this->session = session();
       if (Auth::check()) {
         $this->user = Auth::user();
         $this->cart_id_db = $this->get_looged_user_cart_id();
@@ -57,13 +56,18 @@ class Cart
            return $this->session_cart_details();
         }
     }
-  public function update($items){
-    // dd($this->cart_id_db);
-      // dd($items);
+     public function update($items){
+      if(!is_null($this->user) && isset($this->user)){
+        return $this->update_cart_db($items);
+      }else{
+        return $this->update_cart_session($items);
+      }
+      
+     }
+  public function update_cart_db($items){
     $cart_item = new CartItem();
-    foreach ($items as $key => $value) {
+    foreach ($items as $key => $value){
       $cart_item = $cart_item->where('cart_id','=',$this->cart_id_db)->where('product_id','=',$key)->first();
-      // dd($cart_item);
       $current_quantity = $cart_item->quantity;
       $updated_quantity = $value;
       $price = $cart_item->price;
@@ -75,16 +79,18 @@ class Cart
         );
       }
       $this->store_cart_summary_db();
+      return true;
     } 
-    // public function update(){
-    //   $product_quantity = 13;
-    //   $cart = session()->get('cart');
-    //   $product_id =2;
-    //   $cart[$product_id]["quantity"] = $product_quantity;
-    //   $cart[$product_id]["item_total"] = $cart[$product_id]["price"] * $product_quantity;
-    //   session()->put('cart', $cart);
-    //   session()->save();
-    // }
+    public function update_cart_session($items){
+      $cart = session()->get('cart');
+      foreach ($items as $key => $value){
+        $cart['items'][$key]["quantity"] = $value;
+        $cart['items'][$key]["item_total"] = $cart['items'][$key]["price"] * $value;
+      }
+      session()->put('cart', $cart);
+      session()->save();
+      return true;
+    }
   public function remove($product_id){
     if (Auth::check()) {
            $this->remove_item_from_cart_db($product_id);
@@ -109,30 +115,93 @@ class Cart
       $this->increment_item_in_cart_db();
     }
   }
+
   public function apply_coupon($coupon_code){
     $coupon = new Coupon();
     $coupon = $coupon->where('code','=',$coupon_code)->first();
-    // dd($coupon);
     if (!is_null($coupon) || !empty($coupon)) {
       if (!is_null($coupon->expiration_date) && $coupon->expiration_date<'2030-11-11') {
-        dd('kkkkkkk');
         return "Coupon Expired";
       }elseif ($coupon->is_active==0) {
-        return "Coupon Unavailable right now!Please stay with us!";
+        return "expired";
       }else{
-        // dd('kkll');
-        $cart = new CartModel();
+        if (!is_null($this->user) || !empty($this->user)) {
+          if ($this->store_coupon_in_cart_db($coupon)) {
+            return "success";
+          }
+        }else{
+          if($this->store_coupon_in_cart_session($coupon)){
+            return "success";
+          }
+        }
+      }
+    }else{
+      return "invalid";
+    }
+  }
+  public function store_coupon_in_cart_db($coupon){
+    $cart = new CartModel();
         $cart = $cart->where('id','=',$this->cart_id_db)->first();
         $cart->coupon_code = $coupon->code;
         $cart->coupon_value = $coupon->value;
-        $cart->save();
-        $this->store_cart_summary_db();
-        return "Coupon Appllied Successfully!";
-      }
+        if ($cart->save()) {
+          $this->store_cart_summary_db();
+          return true;
+        }   
+  }
+ public function store_coupon_in_cart_session($coupon){
+  $cart = session()->get("cart");
+  $cart['coupon_code'] = $coupon->code;
+  $cart['coupon_value'] = $coupon->value;
+  session()->put("cart", $cart);
+                if (session()->save()) {
+                  $this->store_cart_summary_session();
+                  return true;
+                }
+        
+  }
+  public function remove_coupon($coupon_code){
+    if (!is_null($this->user) || !empty($this->user)) {
+          return $this->remove_coupon_from_cart_db($coupon_code);
+        }else{
+           return $this->remove_coupon_from_cart_session($coupon_code);
+        }
+  }
+  public function remove_coupon_from_cart_db($coupon_code){
+    $cart_model = new CartModel();
+    $cart_model = $cart_model->where('id','=',$this->cart_id_db)
+            ->where('coupon_code','=',$coupon_code)->first();
+    if (!empty($cart_model) || !is_null($cart_model)) {
+     $cart_model = $cart_model->update(
+      [
+        'coupon_code'=> null,
+        'coupon_value'=> 0.00
+      ]
+    );
+     $this->store_cart_summary_db();
+     return true;
     }else{
-      // dd('kk');
-      return "Invalid Coupon Code";
+      return false;
     }
+       
+  }
+  public function remove_coupon_from_cart_session($coupon_code){
+    if (session()->has('cart') ) {
+        $cart = session()->get('cart');
+         // dd($cart['coupon_code']);
+         if (isset($cart['coupon_code'])) {
+             if ($cart['coupon_code']==$coupon_code) {
+                session()->forget('cart["coupon_code"]');
+                unset($cart['coupon_code']);
+                unset($cart['coupon_value']);
+                session()->put("cart", $cart);
+                if (session()->save()){
+                  return true;
+                }
+             }
+         }
+            
+          }
   }
   public function sum_of_cart_item_total_db(){
     $cart_item = new CartItem();
@@ -141,12 +210,9 @@ class Cart
   } 
   public function cart_total_value_db(){
     $cart_model = new CartModel();
-    // dd($cart_model);
     $coupon_value = $cart_model->where('id','=',$this->cart_id_db)->first()->coupon_value;
-    // dd($coupon_value);
     $sum_of_cart_item_total_db = $this->sum_of_cart_item_total_db();
     $total = ($sum_of_cart_item_total_db -$coupon_value);
-    // dd($this->sum_of_cart_item_total_db());
     return $total;
   }
   public function number_of_items_in_a_cart_total_db(){
@@ -224,7 +290,7 @@ class Cart
         $cart = session()->get("cart");
         // if cart is empty then this the first product
         if(!$cart) {
-            $cart = [
+            $cart['items'] = [
                     $product_id => [
                         "product_id" => $this->product->id,
                         "quantity" => 1,
@@ -237,17 +303,19 @@ class Cart
             ];
             session()->put("cart", $cart);
             session()->save();
+            $this->store_cart_summary_session();
         }
         // if cart not empty then check if this product exist then increment quantity
-        if(isset($cart[$product_id])) {
-            $cart[$product_id]['quantity']++;
-            $cart[$product_id]['item_total'] = $cart[$product_id]['quantity'] * (double)$cart[$product_id]['price'];
-            session()->put("cart", $cart);
-            session()->save();
+        if(isset($cart['items'][$product_id])) {
+            $cart['items'][$product_id]['quantity']++;
+            $cart['items'][$product_id]['item_total'] = $cart['items'][$product_id]['quantity'] * (double)$cart['items'][$product_id]['price'];
+              session()->put("cart", $cart);
+              session()->save();
+            $this->store_cart_summary_session();
         }
         // if item not exist in cart then add to cart with quantity = 1
         else{
-          $cart[$product_id] = [
+          $cart['items'][$product_id] = [
             "product_id" => $this->product->id,
             "quantity" => 1,
             "price" => $this->product->new_price,
@@ -257,6 +325,7 @@ class Cart
         ];
         session()->put("cart", $cart);
         session()->save();
+        $this->store_cart_summary_session();
         return true;
         }
     }
@@ -269,44 +338,88 @@ class Cart
       }
       return $cart;
     }
-	public function session_cart_details(){
-      $cart_details =  array(); 
-      if (session()->has('cart') && !is_null(session()->get('cart')) && !empty(session()->get('cart'))) {
-      $cart = session()->get('cart');
+    public function store_cart_summary_session(){
       $number_of_items_in_cart=0;
       $sub_total = 0;
       $sub_total_temp = 0;
-      $modified_items =[];
-      if (session()->has("cart")) {
-        $items = session()->get("cart");
+      $coupon_value = 0;
+      $total = 0;
+      if (session()->has('cart') ) {
+        $cart = session()->get('cart');
+        if (!is_null($cart) && !empty($cart)) {
+        $items = $cart['items'];
         foreach ($items as  $key => $item){
           $sub_total_temp += (double)$item["item_total"];
           $sub_total = round($sub_total_temp , 2);
           $sub_total = number_format($sub_total, 2, '.', '');
-           $modified_items[] = [
-                        "product_id" => $item['product_id'],
-                        "quantity" =>$item['quantity'],
-                        "price" => $item['price'],
-                        "item_total" => $item['item_total'],
-                        "item" => $item['item'],
-                        "atttributes" => ""
-                    ];
           }
-        $number_of_items_in_cart = count($items);
-      }
-      $cart_details["number_of_items_in_cart"] = $number_of_items_in_cart;
-      $cart_details["total"] = $sub_total;
-      $cart_details["session_id"] = $this->session->getId();
-      $cart_details["items"] = $modified_items;
-      }
-       return $cart_details;
+          $number_of_items_in_cart = count($items);
+         }
+         if (isset($cart['coupon_code']) && isset($cart['coupon_value'])) {
+           $coupon_value = $cart['coupon_value'];
+           $total = $sub_total -  $coupon_value;
+         }else{
+          $total = $sub_total;
+         }
+         $cart['number_of_items_in_cart'] = $number_of_items_in_cart;
+         $cart['sub_total'] = $sub_total;
+         $cart['total'] = number_format($total, 2, '.', '');
+         session()->put("cart", $cart);
+         session()->save();
+
+     }
+
+    }
+    // public function store_cart_summary_session(){
+
+    // }
+	public function session_cart_details(){
+    $cart = [] ;
+    if (session()->has('cart')){
+      $this->store_cart_summary_session();
+      $cart = session()->get('cart');
+    }
+    return $cart ;
+      // $cart_details =  array(); 
+      // if (session()->has('cart') && !is_null(session()->get('cart')) && !empty(session()->get('cart'))) {
+      // $cart = session()->get('cart');
+      // $number_of_items_in_cart=0;
+      // $sub_total = 0;
+      // $sub_total_temp = 0;
+      // $modified_items =[];
+      // if (session()->has("cart")) {
+      //   $cart = session()->get("cart");
+      //   $items = $cart['items'];
+      //   // dd($items);
+      //   foreach ($items as  $key => $item){
+      //     $sub_total_temp += (double)$item["item_total"];
+      //     $sub_total = round($sub_total_temp , 2);
+      //     $sub_total = number_format($sub_total, 2, '.', '');
+      //     $modified_items[] = [
+      //                   "product_id" => $item['product_id'],
+      //                   "quantity" =>$item['quantity'],
+      //                   "price" => $item['price'],
+      //                   "item_total" => $item['item_total'],
+      //                   "item" => $item['item'],
+      //                   "atttributes" => ""
+      //               ];
+      //     }
+      //   $number_of_items_in_cart = count($items);
+      // }
+      // $cart_details["number_of_items_in_cart"] = $number_of_items_in_cart;
+      // $cart_details["total"] = $sub_total;
+      // $cart_details["session_id"] = $this->session->getId();
+      // $cart_details["items"] = $modified_items;
+      // }
+      //  return $cart_details;
     }
   public function remove_item_from_cart_session($product_id){
         $cart = session()->get("cart");
-            if(isset($cart[$product_id])) {
-                unset($cart[$product_id]);
+            if(isset($cart['items'][$product_id])) {
+                unset($cart['items'][$product_id]);
                 session()->put("cart", $cart);
                 if (session()->save()) {
+                  $this->store_cart_summary_session();
                   return true;
                 }
             }

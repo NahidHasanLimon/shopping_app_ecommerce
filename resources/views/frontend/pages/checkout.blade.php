@@ -7,7 +7,7 @@
                     <div class="col">
                         <div class="coupon-area">
                             <!-- coupon-accordion start -->
-                            <div class="coupon-accordion">
+                            {{-- <div class="coupon-accordion">
                                 <h3>Returning customer? <span class="coupon" id="showlogin">Click here to login</span></h3>
                                 <div class="coupon-content" id="checkout-login">
                                     <div class="coupon-info">
@@ -32,21 +32,38 @@
                                         </form>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <!-- coupon-accordion end -->
                             <!-- coupon-accordion start -->
                             <div class="coupon-accordion">
+                                @if(empty(Cart::details()['coupon_code']))
                                 <h3>Have a coupon? <span class="coupon" id="showcoupon">Click here to enter your code</span></h3>
                                 <div class="coupon-content" id="checkout-coupon">
                                     <div class="coupon-info">
-                                        <form action="#">
+                                        <form method = "POST" action="{{route('coupon.apply')}}">
+                                            @csrf
                                             <p class="checkout-coupon">
-                                                <input type="text" placeholder="Coupon code">
+                                                <input type="text" name="coupon_code" placeholder="Coupon code">
                                                 <button type="submit" class="btn button-apply-coupon" name="apply_coupon" value="Apply coupon">Apply coupon</button>
                                             </p>
                                         </form>
                                     </div>
                                 </div>
+                                @else
+                                {{-- <input id="remove_coupon_code" class="input-text" name="remove_coupon_code" value="{{Cart::details()['coupon_code']}}" placeholder="Coupon code" type="text" disabled="">
+                                            <input class="button btn-danger" name="remove_coupon" value="Remove coupon" type="submit"> --}}
+                                <div class="your-order-wrap border">      
+                                  <div class="input-group">
+                                    <div class="input-group-prepend bg-danger">
+                                        <div class="input-group-text">
+                                            <a href="{{route('coupon.remove',Cart::details()['coupon_code']) }}" class="button btn-danger">Remove</a>
+                                        </div>
+                                    </div>
+                                    <h5 class="text-center text-middle">Your Applied Coupon: <span class="bold"> {{Cart::details()['coupon_code']}}</span></h5>
+                                  </div>
+                                </div>
+                                            
+                                @endif
                             </div>
                             <!-- coupon-accordion end -->
                         </div>

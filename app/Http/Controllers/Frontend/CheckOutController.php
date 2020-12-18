@@ -23,8 +23,8 @@ class CheckOutController extends Controller
     public function index()
     {
         // dd(session()->getId());
-        $cart_details= $this->session_cart_details();
-        return view('Frontend.pages.checkout',compact('cart_details'));
+        // $cart_details= $this->session_cart_details();
+        return view('Frontend.pages.checkout');
     }
      public function session_cart_details(){
       $cart_details =  array(); 
