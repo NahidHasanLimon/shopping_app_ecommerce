@@ -38,7 +38,8 @@ $(function(){
         e.preventDefault();
        var id=$(this).data('id');
          $.ajax({
-               url: 'http://127.0.0.1:8000/add-to-cart',
+               // url: 'http://127.0.0.1:8000/add-to-cart',
+               url: 'http://localhost:8000/add-to-cart',
                method: "get",
                 data: { id: id },
                success: function (response) {

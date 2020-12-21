@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         // Custom Service Provider
         App\Providers\CartServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
 
     ],
 
@@ -229,7 +230,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         // custom aliases
-        'Cart'   =>  App\Shop\CartFacade::class
+        'Cart'   =>  App\Shop\CartFacade::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
     ],
 

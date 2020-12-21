@@ -441,7 +441,7 @@ class Cart
           $cart_id = $cart_model->id;
         }
         if (!empty($session_cart_items)){
-        foreach ($session_cart_items as  $key => $item){
+        foreach ($session_cart_items['items'] as  $key => $item){
           $is_exist_cart_item = $cart_item->where('product_id', '=', $item['product_id'])->where('cart_id', '=',$cart_id)->first();
             $cart_item = new CartItem();
             // $cart_model = new CartModel();

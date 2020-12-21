@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-
+// Route::group(['middleware' => 'web'], function() {
 Route::get('/', 'Frontend\HomeController@index')->name('home');
 Route::get('/add-to-cart', 'CartController@add_to_cart')->name('cart.add');
 Route::get('/remove-from-cart', 'CartController@remove')->name('cart.remove');
@@ -38,3 +38,7 @@ Route::get('/home', 'HomeController@index')->name('home2');
 // Route::get('/cart2', function() {
 //     Cart::details();
 // });
+// });
+// https://appdividend.com/2018/04/11/laravel-google-login-tutorial/
+Route::get('/redirect', 'SocialAuthController@redirect');
+Route::get('/callback', 'SocialAuthController@callback');
