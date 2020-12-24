@@ -28,11 +28,7 @@ class CartController extends Controller
     }
     // end of add to cart
     public function update(Request $request)
-    {
-         $customMessages = [
-        'required' => 'The :attribute field is required.'
-    ];
-      
+    { 
        if (isset($request->items_quantity)) {
          $items = $request->items_quantity;
          if (Cart::update($items)){
@@ -63,10 +59,26 @@ class CartController extends Controller
         
       
        }
-       Session::flash('success','Coupon Appllied Successfully!');
-       // dd(Session());
+        // $request->session()->flash('success','Coupon Appllied Successfully!');
+       // session()->save();
+       // Session::save();
+       // Session::flash('success','Coupon Appllied Successfully!');
+       // session()->put('success','Coupon Appllied Successfully!');
+       // session()->put('success', 'Coupon Appllied Successfully');
+       if ($message = Session::get('success')) {
+         // dd($message);
+       }
+       // dd(Session::get('success') );
+       // dd(session()->get('success'));
       // return redirect('cart');
-       return back();
+       // return back();
+       // Session()::save();
+       // session()->save();
+
+       return redirect()->back();
+       // return redirect()->route('cart.view');
+
+
     }
     // end of update
     public function apply_coupon(Request $request){

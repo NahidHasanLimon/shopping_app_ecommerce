@@ -38,7 +38,8 @@ class SocialAuthController extends Controller
                 $user->save();
                 Auth::loginUsingId($user->id);
             }
-            return redirect()->to('/home');
+            return redirect()->to('/');
+            // return redirect()->back();
         } 
         catch (Exception $e) {
             // return 'error';

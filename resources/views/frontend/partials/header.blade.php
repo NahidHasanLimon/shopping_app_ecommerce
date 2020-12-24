@@ -98,6 +98,7 @@
                                         </li>
                                         <li><a href="about-us.html">About</a></li>
                                         <li><a href="contact-us.html">Contact</a></li>
+                                        
                                     </ul>
                                 </nav>
 
@@ -114,6 +115,29 @@
                                     <a href="wishlist.html"><i class="ion-android-favorite-outline"></i></a>
                                 </div>
 
+                                <div class="logged-user">
+                                     @if(Auth::check())
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        {{-- {{ Auth::user()->name }} --}}
+                                        {{substr(Auth::user()->name, 0, 5)}}
+                                        {{-- <i class="fas-fa-user"></i> --}}
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                       <a href="{{ route('my-account') }}" class="dropdown-item">My account</a>
+                                        <a class="dropdown-item" href="{{ route('logout') }}"
+                                           onclick="event.preventDefault();
+                                                         document.getElementById('logout-form').submit();">
+                                            {{ __('Logout') }}
+                                        </a>
+
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                            @csrf
+                                        </form>
+                                        @else
+                                        <a href="{{ route('login') }}">Login</a>
+                                        @endif
+                                    </div>
+                                </div>
 
                                 <div class="shopping-cart-wrap">
                                    @if(!empty(Cart::details()))

@@ -24,6 +24,9 @@ Route::get('/cart', 'CartController@index')->name('cart.view');
 Route::post('/cart/update', 'CartController@update')->name('cart.update');
 Route::post('/coupon/apply', 'CartController@apply_coupon')->name('coupon.apply');
 Route::get('/coupon/remove/{coupon_code}', 'CartController@remove_coupon')->name('coupon.remove');
+Route::get('/my-account', function () {
+    return view('frontend.pages.my-account');
+})->name('my-account');
 // Route::get('/cart/update',function(){
 // 	echo "limon";
 // })->name('cartUpdateNew');

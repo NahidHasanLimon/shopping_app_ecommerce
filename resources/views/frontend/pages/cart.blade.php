@@ -142,7 +142,7 @@
         var updated_subtotal = parseFloat(unit_price) * parseFloat(current_quantity);
         $(this).closest('tr').find('.product-subtotal span').text(updated_subtotal.toFixed(2));
         $('#cart_sub_total').text(cartTotalCalculation().toFixed(2));
-        $('#cart_total').text(cartTotalCalculation().toFixed(2));      
+        // $('#cart_total').text(cartTotalCalculation().toFixed(2));      
 });
   $('.item-remove-btn').click(function(e){
         e.preventDefault();
