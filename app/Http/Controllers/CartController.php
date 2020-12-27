@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Product;
-use App\Cart as CartDB;
+use App\Cart as CartModel;
 use Auth;
 use Cart;
 use Session;

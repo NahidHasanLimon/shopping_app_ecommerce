@@ -140,7 +140,7 @@
                                 </div>
 
                                 <div class="shopping-cart-wrap">
-                                   @if(!empty(Cart::details()))
+                                   @if(!empty(Cart::details()['items']))
                                     <a href="#"><i class="ion-ios-cart-outline"></i> <span id="cart-total">{{Cart::details()['number_of_items_in_cart']}}</span></a>
                                     <ul class="mini-cart">
                                         

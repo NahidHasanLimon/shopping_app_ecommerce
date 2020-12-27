@@ -346,7 +346,7 @@ class Cart
       $total = 0;
       if (session()->has('cart') ) {
         $cart = session()->get('cart');
-        if (!is_null($cart) && !empty($cart)) {
+        if (!is_null($cart) && !empty($cart)&&!empty($cart['items'])) {
         $items = $cart['items'];
         foreach ($items as  $key => $item){
           $sub_total_temp += (double)$item["item_total"];

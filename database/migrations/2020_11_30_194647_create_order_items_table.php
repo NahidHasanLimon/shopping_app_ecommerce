@@ -19,9 +19,9 @@ class CreateOrderItemsTable extends Migration
             $table->integer('product_id');
             $table->tinyInteger('quantity');
             $table->string('atttributes')->nullable();
-            $table->decimal('price', 8, 2)->deafault(0.0);
-            $table->decimal('discount', 8, 2)->deafault(0.0);
-            $table->decimal('item_total', 8, 2)->deafault(0.0);
+            $table->decimal('price', 8, 2)->default(0.0);
+            $table->decimal('discount', 8, 2)->default(0.0);
+            $table->decimal('item_total', 8, 2)->default(0.0);
             $table->timestamps();
         });
     }

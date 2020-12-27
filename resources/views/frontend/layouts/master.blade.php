@@ -24,7 +24,6 @@
        <!-- header -->
          @include('frontend.partials.header')
          @include('frontend.partials.flash-message')
-
         @yield('content')
 
 

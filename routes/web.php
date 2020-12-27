@@ -33,6 +33,7 @@ Route::get('/my-account', function () {
 
 
 Route::get('/checkout', 'Frontend\CheckOutController@index')->name('checkout');
+Route::post('/order/store', 'Frontend\OrderController@store')->name('order.store');
 
 // https://webmobtuts.com/backend-development/creating-a-shopping-cart-with-laravel/
 Auth::routes();
