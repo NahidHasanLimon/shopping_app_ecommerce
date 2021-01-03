@@ -33,9 +33,18 @@
 </div>
 @endif
 
-@if ($errors->any())
+{{-- @if ($errors->any())
 <div class="alert alert-danger">
     <button type="button" class="close" data-dismiss="alert">×</button>
     Check the following errors :(
 </div>
+@endif --}}
+
+@if($errors->any())
+ @foreach ($errors->all() as $error)
+ <div class="alert alert-danger">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <strong>{{ $error }}</strong>
+</div>
+ @endforeach  
 @endif

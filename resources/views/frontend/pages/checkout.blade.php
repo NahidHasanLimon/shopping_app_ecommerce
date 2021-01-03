@@ -94,28 +94,37 @@
                                         <div class="col-lg-6">
                                             <p class="single-form-row">
                                                 <label>Name <span class="required">*</span></label>
-                                                <input type="text" name="name" 
+                                                <input type="text" name="name" required="" 
                                                 value="{{Auth::check()?Auth::user()->name:''}}" 
                                                 {{Auth::check()?'disabled':''}}
                                                 >
+                                              {{--   @error('name')
+                                                    <span class="error">{{ $message }}</span>
+                                                @enderror --}}
                                             </p>
                                         </div>
                                         <div class="col-lg-6">
                                             <p class="single-form-row">
                                                 <label>Email <span class="required">*</span></label>
                                                 <input type="text" name="email" value="{{Auth::check()?Auth::user()->email:''}}" {{Auth::check()?'disabled':''}}>
+                                                 @error('email')
+                                                    <span class="errors">{{ $message }}</span>
+                                                @enderror
                                             </p>
                                         </div>
+                                        @php
+                                            // dd(Auth::user());
+                                        @endphp
                                         <div class="col-lg-12">
                                             <p class="single-form-row">
                                                 <label>Street address <span class="required">*</span></label>
-                                                <input type="text" placeholder="House number and street name" name="address"  value="{{Auth::check()?Auth::user()->address->street_address:''}}">
+                                                <input type="text" placeholder="House number and street name" name="street_address"  value="{{(Auth::check()?(Auth::user()->address?Auth::user()->address->street_address:''):'')}}">
                                             </p>
                                         </div>
                                         <div class="col-lg-12">
                                             <p class="single-form-row">
                                                 <label>Additional(Apartment/Suit etc) <span class="required">*</span></label>
-                                                <input type="text" placeholder="Apartment, suite, unit etc. (optional)" name="additional_details" value="{{Auth::check()?Auth::user()->address->additional_details:''}}">
+                                                <input type="text" placeholder="Apartment, suite, unit etc. (optional)" name="additional_details" value="{{(Auth::check()?(Auth::user()->address?Auth::user()->address->additional_details:''):'')}}">
                                             </p>
                                         </div>
                                         <div class="col-lg-12">
@@ -154,13 +163,13 @@
                                         <div class="col-lg-12">
                                             <p class="single-form-row">
                                                 <label>Postcode / ZIP <span class="required">*</span></label>
-                                                <input type="text" name="post_code" value="{{Auth::check()?Auth::user()->address->post_code:''}}">
+                                                <input type="text" name="post_code" value="{{(Auth::check()?(Auth::user()->address?Auth::user()->address->post_code:''):'')}}">
                                             </p>
                                         </div>
                                         <div class="col-lg-12">
                                             <p class="single-form-row">
                                                 <label>Phone</label>
-                                                <input type="text" name="phone" value="{{Auth::check()?Auth::user()->address->phone:''}}">
+                                                <input type="text" name="phone" value="{{(Auth::check()?(Auth::user()->address?Auth::user()->address->phone:''):'')}}">
                                             </p>
                                         </div>
                                         @if(!Auth::check())

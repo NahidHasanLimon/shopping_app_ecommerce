@@ -100,7 +100,7 @@
                                         <div class="col-lg-12">
                                             <p class="single-form-row">
                                                 <label>Street address <span class="required">*</span></label>
-                                                <input type="text" placeholder="House number and street name" name="address">
+                                                <input type="text" placeholder="House number and street name" name="street_address">
                                             </p>
                                         </div>
                                         <div class="col-lg-12">

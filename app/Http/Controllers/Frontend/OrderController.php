@@ -12,6 +12,8 @@ use App\UserAddress;
 use Cart;
 use Illuminate\Http\Request;
 use Auth;
+// use Input;
+use Validator;
 
 class OrderController extends Controller
 {
@@ -81,6 +83,26 @@ class OrderController extends Controller
         // dd($cart_details= Cart::details());
      if ($is_different_shipping==true){
         // validation logic
+           $data_different_shipping['name'] = $request->s_a_name;
+           $data_different_shipping['street_address'] = $request->s_a_street_address;
+           $data_different_shipping['town_or_city'] = $request->s_a_town_or_city;
+           $data_different_shipping['district'] = $request->s_a_district;
+           $data_different_shipping['post_code'] = $request->s_a_post_code;
+           $data_different_shipping['phone'] = $request->s_a_phone;
+           // dd($request->all());
+           // dd($data_different_shipping);
+           $rule  =  array(
+                    'name'       => 'required',
+                    'street_address' => 'required',
+                    'town_or_city' => 'required',
+                    'district' => 'required',
+                    'post_code' => 'required',
+                    'phone' => 'required',
+                       );
+            $validator = Validator::make($data_different_shipping,$rule);
+            if($validator->fails()) {
+                return back()->withErrors($validator);
+            }
            $shipping_address->name = $request->s_a_name;
            $shipping_address->street_address = $request->s_a_street_address;
            $shipping_address->additional_details = $request->s_a_additional_details;
@@ -91,6 +113,17 @@ class OrderController extends Controller
         }
         if ($is_guest_checkout==true){
         // validation logic
+           $data_guest_checkout['name'] = $request->name;
+           $data_guest_checkout['email'] = $request->email;
+           $rule  =  array(
+                    'name'       => 'required',
+                    'email'         => 'required|email|unique:users',
+                       );
+            $validator = Validator::make($data_guest_checkout,$rule);
+            if($validator->fails()) {
+                // dd($validator);
+                return back()->withErrors($validator);
+            }
             // dd('is_guest_checkout equal true');
            $guest_checkout->name = $request->name;
            $guest_checkout->email = $request->email;
@@ -104,6 +137,28 @@ class OrderController extends Controller
         if ($is_new_account) {
             // validation logic
             // dd('is_new_account equal true');
+           $data_new_account['name'] = $request->name;
+           $data_new_account['email'] = $request->email;
+           $data_new_account['password'] = $request->password;
+           $data_new_account['street_address'] = $request->street_address;
+           $data_new_account['town_or_city'] = $request->town_or_city;
+           $data_new_account['district'] = $request->district;
+           $data_new_account['post_code'] = $request->post_code;
+           $data_new_account['phone'] = $request->phone;
+           $rule  =  array(
+                    'name'       => 'required',
+                    'email'         => 'required|email|unique:users',
+                    'password'         => 'required',
+                    'street_address' => 'required',
+                    'town_or_city' => 'required',
+                    'district' => 'required',
+                    'post_code' => 'required',
+                    'phone' => 'required',
+                       );
+            $validator = Validator::make($data_new_account,$rule);
+            if($validator->fails()) {
+                return back()->withErrors($validator);
+            }
             $user->name = $request->name;
             $user->email = $request->email;
             $user->password = $request->password;
@@ -124,7 +179,8 @@ class OrderController extends Controller
             }
         }
         // end of is new is_new_account
-        if ($cart_details= Cart::details()){
+        if ($cart_details = Cart::details()){
+        // dd(Cart::details());
             $order->is_different_shipping = $is_different_shipping;
             $order->is_guest_checkout = $is_guest_checkout;
             $order->sub_total = $cart_details['sub_total'];
@@ -163,7 +219,8 @@ class OrderController extends Controller
             }
             // dd($items);
             $order_item->insert($items);
-            dd($order_item);
+            // dd($order_item);
+            return back();
         }
     }
 
