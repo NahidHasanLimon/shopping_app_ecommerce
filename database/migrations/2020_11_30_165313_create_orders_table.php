@@ -20,6 +20,7 @@ class CreateOrdersTable extends Migration
             $table->string('coupon_code')->nullable();
             $table->string('coupon_value')->nullable();
             $table->decimal('discount',8, 2)->default(0.0);
+            $table->integer('number_of_items')->default(0);
             $table->decimal('sub_total',8, 2)->default(0.0);
             $table->decimal('total',8, 2)->default(0.0);
             $table->tinyInteger('is_different_shipping')->default(0);

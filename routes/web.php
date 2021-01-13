@@ -24,9 +24,14 @@ Route::get('/cart', 'CartController@index')->name('cart.view');
 Route::post('/cart/update', 'CartController@update')->name('cart.update');
 Route::post('/coupon/apply', 'CartController@apply_coupon')->name('coupon.apply');
 Route::get('/coupon/remove/{coupon_code}', 'CartController@remove_coupon')->name('coupon.remove');
-Route::get('/my-account', function () {
-    return view('frontend.pages.my-account');
-})->name('my-account');
+// Route::get('/my-account', function () {
+//     return view('frontend.pages.my-account');
+// })->name('myaccount.index');
+Route::get('/my-account','Frontend\MyAccountController@index')->name('myaccount.index');
+Route::get('/shop','Frontend\ShopController@index')->name('shop.index');
+Route::get('/product/{id}','Frontend\ShopController@product_details')->name('product.details');
+Route::post('/product/review/store','Frontend\ProductReviewController@store')->name('product.review.store')->middleware('auth');
+// Route::get('/product','Frontend\ShopController@product_details')->name('product.details');
 // Route::get('/cart/update',function(){
 // 	echo "limon";
 // })->name('cartUpdateNew');
@@ -34,7 +39,10 @@ Route::get('/my-account', function () {
 
 Route::get('/checkout', 'Frontend\CheckOutController@index')->name('checkout');
 Route::post('/order/store', 'Frontend\OrderController@store')->name('order.store');
-
+// Route::get('/order/success/')->name('order.success');
+Route::get('/order/success', function () {
+    return view('frontend.pages.order_success');
+})->name('order.success');
 // https://webmobtuts.com/backend-development/creating-a-shopping-cart-with-laravel/
 Auth::routes();
 

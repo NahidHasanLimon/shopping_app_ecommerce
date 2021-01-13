@@ -13,6 +13,7 @@ use Cart;
 use Illuminate\Http\Request;
 use Auth;
 // use Input;
+use Redirect;
 use Validator;
 
 class OrderController extends Controller
@@ -54,7 +55,8 @@ class OrderController extends Controller
         $guest_checkout = new GuestCheckout;
         $shipping_address = new ShippingAddress;;
         $user = new User;;
-        $user_address = new UserAddress;;
+        $user_address = new UserAddress;
+        $cart_model = new CartModel;
         //
         // dd($request->all());
         $is_different_shipping = false;
@@ -180,7 +182,7 @@ class OrderController extends Controller
         }
         // end of is new is_new_account
         if ($cart_details = Cart::details()){
-        // dd(Cart::details());
+          // dd($cart_details);
             $order->is_different_shipping = $is_different_shipping;
             $order->is_guest_checkout = $is_guest_checkout;
             $order->sub_total = $cart_details['sub_total'];
@@ -189,9 +191,9 @@ class OrderController extends Controller
                 $order->coupon_value = $cart_details['coupon_value'];
             }
             $order->total = $cart_details['total'];
+            $order->number_of_items = (int)$cart_details['number_of_items_in_cart'];
             $order->save();
             // dd($order);
-           
             if ($is_guest_checkout==true) {
                 $guest_checkout->order_id = $order->id;
                 $guest_checkout->save();
@@ -217,10 +219,15 @@ class OrderController extends Controller
                 ];
 
             }
-            // dd($items);
             $order_item->insert($items);
+            if ($order_item) {
+            $deactivate_cart = Cart::deactive_this_cart();
+            }
             // dd($order_item);
-            return back();
+            // dd($order);
+            // return back();
+            // return redirect()->route('order.success')->with( 'order', $order );
+            return Redirect::route('order.success')->with(['order'=>$order]); 
         }
     }
 

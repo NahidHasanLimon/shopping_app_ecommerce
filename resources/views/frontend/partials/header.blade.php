@@ -21,8 +21,8 @@
                                         <div class="top-info-wrap text-right">
                                             <ul class="top-info">
                                                 <li>Mon - Fri : 9am to 5pm </li>
-                                                <li><a href="#">+88012345678</a></li>
-                                                <li><a href="#">fultalashop@gmail.com</a></li>
+                                                <li><a href="#">+8801621316727</a></li>
+                                                <li><a href="#">nh.limon2010@gmail.com</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -57,37 +57,12 @@
                                                 <li><a href="index-2-box.html">Home Boxed Layout 2</a></li>
                                             </ul> --}}
                                         </li>
-                                        <li><a href="shop.html">Pages</a>
-                                            <ul class="mega-menu">
-                                                <li><a href="#">Column One</a>
-                                                    <ul>
-                                                        <li><a href="compare.html">Compare Page</a></li>
-                                                        <li><a href="login-register.html">Login &amp; Register</a></li>
-                                                        <li><a href="my-account.html">My Account Page</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a href="blog.html">Column two</a>
-                                                    <ul>
-                                                        <li><a href="product-details.html">Product Details 1</a></li>
-                                                        <li><a href="product-details-2.html">Product Details 2</a></li>
-                                                        <li><a href="checkout.html">Checkout Page</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a href="#">Column Three</a>
-                                                    <ul>
-                                                        <li><a href="error404.html">Error 404</a></li>
-                                                        <li><a href="cart.html">Cart Page</a></li>
-                                                        <li><a href="wishlist.html">Wish List Page</a></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="#">shop</a>
-                                            <ul class="sub-menu">
+                                        <li><a href="{{ route('shop.index') }}">shop</a>
+                                            {{-- <ul class="sub-menu">
                                                 <li><a href="shop.html">Shop Left Sidebar</a></li>
                                                 <li><a href="shop-right.html">Shop Right Sidebar</a></li>
                                                 <li><a href="shop-fullwidth.html">Shop Full Width</a></li>
-                                            </ul>
+                                            </ul> --}}
                                         </li>
                                         <li><a href="blog.html">Blog</a>
                                             <ul class="sub-menu">
@@ -123,7 +98,7 @@
                                         {{-- <i class="fas-fa-user"></i> --}}
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                       <a href="{{ route('my-account') }}" class="dropdown-item">My account</a>
+                                       <a href="{{ route('myaccount.index') }}" class="dropdown-item">My account</a>
                                         <a class="dropdown-item" href="{{ route('logout') }}"
                                            onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();">

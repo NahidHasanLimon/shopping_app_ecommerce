@@ -7,5 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     //
+    protected $fillable = [
+        'name', 'sub_category_id', 'description','old_price','new_price','is_featured','thumbnail',
+    ];
+    public function review()
+    {
+        return $this->hasMany('App\ProductReview');
+    }
+	public function images()
+	    {
+	        return $this->hasMany('App\ProductImage');
+	    }
     
 }

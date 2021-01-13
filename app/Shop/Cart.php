@@ -56,6 +56,16 @@ class Cart
            return $this->session_cart_details();
         }
     }
+    public function deactive_this_cart(){
+      $cart_model = new CartModel();
+      if (!is_null($this->user)) {
+         $cart_model->where('id',$this->cart_id_db)
+              ->update(['is_active' => 0]);
+      }else{
+          session()->flush('cart');
+      }
+      return true;
+    }
      public function update($items){
       if(!is_null($this->user) && isset($this->user)){
         return $this->update_cart_db($items);
@@ -380,38 +390,6 @@ class Cart
       $cart = session()->get('cart');
     }
     return $cart ;
-      // $cart_details =  array(); 
-      // if (session()->has('cart') && !is_null(session()->get('cart')) && !empty(session()->get('cart'))) {
-      // $cart = session()->get('cart');
-      // $number_of_items_in_cart=0;
-      // $sub_total = 0;
-      // $sub_total_temp = 0;
-      // $modified_items =[];
-      // if (session()->has("cart")) {
-      //   $cart = session()->get("cart");
-      //   $items = $cart['items'];
-      //   // dd($items);
-      //   foreach ($items as  $key => $item){
-      //     $sub_total_temp += (double)$item["item_total"];
-      //     $sub_total = round($sub_total_temp , 2);
-      //     $sub_total = number_format($sub_total, 2, '.', '');
-      //     $modified_items[] = [
-      //                   "product_id" => $item['product_id'],
-      //                   "quantity" =>$item['quantity'],
-      //                   "price" => $item['price'],
-      //                   "item_total" => $item['item_total'],
-      //                   "item" => $item['item'],
-      //                   "atttributes" => ""
-      //               ];
-      //     }
-      //   $number_of_items_in_cart = count($items);
-      // }
-      // $cart_details["number_of_items_in_cart"] = $number_of_items_in_cart;
-      // $cart_details["total"] = $sub_total;
-      // $cart_details["session_id"] = $this->session->getId();
-      // $cart_details["items"] = $modified_items;
-      // }
-      //  return $cart_details;
     }
   public function remove_item_from_cart_session($product_id){
         $cart = session()->get("cart");
@@ -424,6 +402,7 @@ class Cart
                 }
             }
     } 
+
   public static function session_to_database(){
       $cart_model = new CartModel();
       $cart_item = new CartItem();

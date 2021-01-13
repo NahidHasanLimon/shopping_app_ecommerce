@@ -8,7 +8,7 @@
                         <h2 class="breadcrumb-title">My account</h2>
                         <!-- breadcrumb-list start -->
                         <ul class="breadcrumb-list">
-                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
                             <li class="breadcrumb-item active">My account</li>
                         </ul>
                         <!-- breadcrumb-list end -->
@@ -60,7 +60,9 @@
                                         <li><a href="#downloads" data-toggle="tab" class="nav-link">Downloads</a></li>
                                         <li><a href="#address" data-toggle="tab" class="nav-link">Addresses</a></li>
                                         <li><a href="#account-details" data-toggle="tab" class="nav-link">Account details</a></li>
-                                        <li><a href="login-register.html" class="nav-link">logout</a></li>
+                                        <li><a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();
+                                                         document.getElementById('logout-form').submit();">logout</a></li>
+
                                     </ul>
                                 </div>
                                 <div class="col-md-12 col-lg-10">
@@ -76,7 +78,8 @@
                                                 <table class="table">
                                                     <thead>
                                                         <tr>
-                                                            <th>Order</th>
+                                                            {{-- <th>Sl.</th> --}}
+                                                            <th>Order NO</th>
                                                             <th>Date</th>
                                                             <th>Status</th>
                                                             <th>Total</th>
@@ -84,20 +87,20 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>May 10, 2018</td>
-                                                            <td>Processing</td>
-                                                            <td>$25.00 for 1 item </td>
+                                                        @if(Auth::check()&&!empty(Auth::user()->orders))
+
+                                                        @foreach (Auth::user()->orders as $order)
+                                                            <tr>
+                                                                {{-- <td>{{}</td> --}}
+                                                            <td>{{$order->id}}</td>
+                                                            <td>{{$order->custom_date}}</td>
+                                                            <td>{{$order->status}}</td>
+                                                            <td>{{$order->total}} for {{$order->number_of_items}} item </td>
                                                             <td><a href="cart.html" class="view">view</a></td>
                                                         </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>May 10, 2018</td>
-                                                            <td>Processing</td>
-                                                            <td>$17.00 for 1 item </td>
-                                                            <td><a href="cart.html" class="view">view</a></td>
-                                                        </tr>
+                                                        @endforeach
+                                                        @endif
+                                                        
                                                     </tbody>
                                                 </table>
                                             </div>
