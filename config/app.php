@@ -177,6 +177,8 @@ return [
         // Custom Service Provider
         App\Providers\CartServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        // for chatify
+        \Chatify\ChatifyServiceProvider::class,
 
     ],
 
@@ -232,6 +234,8 @@ return [
         // custom aliases
         'Cart'   =>  App\Shop\CartFacade::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        // for chatify
+        'Chatify' => Chatify\Facades\ChatifyMessenger::class,
 
     ],
 

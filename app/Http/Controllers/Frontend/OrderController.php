@@ -12,9 +12,10 @@ use App\UserAddress;
 use Cart;
 use Illuminate\Http\Request;
 use Auth;
-// use Input;
 use Redirect;
 use Validator;
+use App\Events\OrderPlaced;
+use Mail;
 
 class OrderController extends Controller
 {
@@ -227,8 +228,24 @@ class OrderController extends Controller
             // dd($order);
             // return back();
             // return redirect()->route('order.success')->with( 'order', $order );
+            event(new OrderPlaced($order));
             return Redirect::route('order.success')->with(['order'=>$order]); 
         }
+    }
+    public function sendEmail(){
+      $limon = "l";
+      $data = array('name'=>"Nahid Hasan Limon 2");
+      // Mail::to('nh.limon2010@gmail.com')->send('emails.order.placed', $limon);
+      Mail::send(
+        ['text'=>'emails.order.placed'], 
+        $data, 
+        function($message) {
+         $message->to('drimik2010@gmail.com', 'Limon Learning')->subject
+            ('Laravel Basic Testing Mail');
+         $message->from('nh.limon2010@gmail.com','Nahid Hasan Limon 22');
+      }
+    );
+
     }
 
     /**

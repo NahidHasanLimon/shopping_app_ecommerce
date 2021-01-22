@@ -39,6 +39,7 @@ Route::post('/product/review/store','Frontend\ProductReviewController@store')->n
 
 Route::get('/checkout', 'Frontend\CheckOutController@index')->name('checkout');
 Route::post('/order/store', 'Frontend\OrderController@store')->name('order.store');
+Route::get('/mail', 'Frontend\OrderController@sendEmail')->name('order.mail');
 // Route::get('/order/success/')->name('order.success');
 Route::get('/order/success', function () {
     return view('frontend.pages.order_success');
