@@ -23,12 +23,43 @@ class ShopController extends Controller
         // $sub_category = $sub_category->withCount('products');
         // dd($sub_category);
         // dd(SubCategory::withCount('category')->get());
+        $sub_category = new SubCategory();
         $category = new Category();
-        $categories = $category->all();
+        $sub_categories = $sub_category->all();
+        // $categories = $category->all();
+        $categories = Category::withCount('products','sub_categories')->with('sub_categories.products')->get(); 
+        // dd($categories->products);
+        // $categories = Category::withCount('products')::withCount('sub_categories')->get(); 
         // dd($categories);
+        // dd($categories->sub_categories);
+        foreach ($categories as $key => $value) {
+            // dd($key);
+            if ($key ==5) {
+                # code...
+            foreach($value->sub_categories as $key2 => $value2 ){
+                // dd($value2->count());
+                // dd($value2);
+            }
+            }
+        }
         // dd($categories->sub_category);
         $products = Product::all();
         $cart_details= Cart::details();
+        // dd($categories->sub_categories->name);
+// dd($categories);
+//         foreach ($categories as $c) {
+//             // dd($sc->name);
+//             // dd($c->sub_categories);
+//             if (!empty($c->sub_categories) || !is_null($c->sub_categories)) {
+//                   echo "<pre>";
+// print_r($c->sub_categories->products_count);
+// echo "</pre>";
+//             }
+//             // var_dump($c);
+//         // var_dump($c->sub_categories);
+          
+//             // dd
+        // }
 
         return view('frontend.pages.shop',compact('products','cart_details','categories'));
     }

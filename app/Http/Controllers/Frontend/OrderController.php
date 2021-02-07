@@ -16,7 +16,8 @@ use Redirect;
 use Validator;
 use App\Events\OrderPlaced;
 use Mail;
-
+use Event;
+use Log;
 class OrderController extends Controller
 {
     /**
@@ -139,7 +140,6 @@ class OrderController extends Controller
         }
         if ($is_new_account) {
             // validation logic
-            // dd('is_new_account equal true');
            $data_new_account['name'] = $request->name;
            $data_new_account['email'] = $request->email;
            $data_new_account['password'] = $request->password;
@@ -224,11 +224,11 @@ class OrderController extends Controller
             if ($order_item) {
             $deactivate_cart = Cart::deactive_this_cart();
             }
-            // dd($order_item);
-            // dd($order);
-            // return back();
-            // return redirect()->route('order.success')->with( 'order', $order );
-            event(new OrderPlaced($order));
+            // event(new OrderPlaced($order));
+            // Event::fire(new OrderPlaced($order));
+            // working
+            // OrderPlaced::dispatch($order);
+             // Log::info("Request ended");
             return Redirect::route('order.success')->with(['order'=>$order]); 
         }
     }

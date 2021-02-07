@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('sub_category_id');
             $table->string('name');
             $table->string('description');
+            $table->string('slug');
             $table->double('old_price');
             $table->double('new_price');
             $table->boolean('is_featured');

@@ -19,6 +19,7 @@ class CreateSubCategoriesTable extends Migration
              $table->string('name');
              $table->string('description');
             $table->string('thumbnail');
+            $table->string('slug');
             $table->timestamps();
         });
     }

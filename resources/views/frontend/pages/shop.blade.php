@@ -41,7 +41,14 @@
                                 <h4 class="title">CATEGORIES</h4>
                                 <ul>
                                     @foreach ($categories as $category)
-                                    <li><a href="">{{$category->name}} <span>(16)</span></a></li>
+                                    <li>
+                                        <a href="">{{$category->name}} <span>{{$category->products_count}}</span></a>
+                                        {{-- <ul class="pl-2">
+                                            @foreach ($category->sub_categories as $sub_category)
+                                                 <li><a href="" class="text-success">s- {{$sub_category->name}} <span>{{$sub_category->sub_categories_count}}</span></a></li>
+                                            @endforeach
+                                        </ul> --}}
+                                    </li>
                                      @endforeach
                                 </ul>
                             </div>
