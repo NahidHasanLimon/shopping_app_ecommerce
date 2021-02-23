@@ -1,0 +1,56 @@
+{
+  "data": [
+    {
+      "id": 4,
+      "name": "Camera",
+      "price": 100,
+      "photo": "https://antopolis.tech/task-assets/ecom/camera.jpg",
+      "discount": 10,
+      "is_hot_product": 1,
+      "is_new_arrival": 0,
+      "category_id": 6,
+      "user_id": 0,
+      "created_at": "2020-08-12 16:35:16",
+      "updated_at": "2020-08-12 16:35:18"
+    },
+    {
+      "id": 5,
+      "name": "Iphone",
+      "price": 500,
+      "photo": "https://antopolis.tech/task-assets/ecom/iphone.jpg",
+      "discount": 5,
+      "is_hot_product": 1,
+      "is_new_arrival": 0,
+      "category_id": 5,
+      "user_id": 0,
+      "created_at": "2020-08-12 16:35:56",
+      "updated_at": "2020-08-12 16:35:57"
+    },
+    {
+      "id": 6,
+      "name": "Laptop",
+      "price": 300,
+      "photo": "https://antopolis.tech/task-assets/ecom/laptop.jpg",
+      "discount": 10,
+      "is_hot_product": 1,
+      "is_new_arrival": 1,
+      "category_id": 4,
+      "user_id": 0,
+      "created_at": "2020-08-12 16:36:34",
+      "updated_at": "2020-08-12 16:36:36"
+    },
+    {
+      "id": 7,
+      "name": "Mac OS",
+      "price": 1000,
+      "photo": "https://antopolis.tech/task-assets/ecom/mac2.jpg",
+      "discount": 5,
+      "is_hot_product": 1,
+      "is_new_arrival": 1,
+      "category_id": 5,
+      "user_id": 0,
+      "created_at": "2020-08-12 16:37:13",
+      "updated_at": "2020-08-12 16:37:14"
+    }
+  ]
+}
