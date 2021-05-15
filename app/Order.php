@@ -16,7 +16,7 @@ class Order extends Model
 		return Carbon::parse($this->date)->format('M d, Y');
 	    // return Carbon::createFromFormat('m/d/Y', $this->date);
 	}
-	public function ordered_items()
+	public function user_addresses()
     {
         return $this->hasMany('App\UserAddress');
     }
